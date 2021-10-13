@@ -1,0 +1,59 @@
+//function used to gather and validate infomation collected from contact form
+function formLoop()
+{
+// declaring valid phone number regex as variable to be used as telephone validation
+var phonenoRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+// declaring valid phone email regex as variable to be used as e-mail validation
+var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+// standard regex found off w3resource.com/javascript/form
+
+var theForm = document.forms[0];
+var alertText = "";
+   // for loop used to iterate through elements gathered from contact form
+   for(i=0; i<theForm.elements.length; i++)
+      {
+      if(theForm.elements[i].type == "text" || theForm.elements[i].type == "textarea")
+         {
+		   alertText += "Element Name: " + theForm.elements[i].name + "\n";
+         alertText += "Element Value: " + theForm.elements[i].value + "\n";
+         
+         //checks if last name has been entered (not null)
+         if (theForm.elements[2].value  == "")
+            {
+            alert("Last name missing (please re-enter)");
+            return false;
+            }
+         
+         //checks if age has been entered (not null) and is between 1 and 120
+         if (isNaN(theForm.elements[3].value) || theForm.elements[3].value < 1 || theForm.elements[3].value > 120)
+            {
+            alert("Invalid age entered (please re-enter)");
+            return false;
+            }
+         
+         if(!(theForm.elements[4].value.match(phonenoRegex)))
+            {
+            alert("Invalid phone number entered (please re-enter)");
+            return false;
+            }
+         if(!(emailRegex.test(theForm.elements[5].value)))
+            {
+            alert("Invalid email address entered (please re-enter)");
+            return false;
+            }           
+         }
+      else if(theForm.elements[i].type == "checkbox") //iterates through checkbox elements displaying whether value has been checked
+         {
+         alertText += "Element Checked? " + theForm.elements[i].name + "-" + theForm.elements[i].checked + "\n";
+         }
+      else if(theForm.elements[i].type == "radio") //iterates through radio elements displaying whether value has been selected
+         {
+         alertText += "Element Selected? " + theForm.elements[i].value + "-" + theForm.elements[i].checked + "\n";
+         }
+	   else if(theForm.elements[i].type == "select")
+         {
+         alertText += "Selected Option's Text: " + theForm.elements[i].options[theForm.elements[i].selectedIndex].text + "\n";
+         }
+      }
+	alert(alertText); //if validation is successful, display alertText message to user
+}
